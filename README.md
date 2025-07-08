@@ -1,1 +1,1 @@
-# SkillUp-Career--AI
+# SkillUp-Career-AI
