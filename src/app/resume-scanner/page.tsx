@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { UploadCloud, FileText, CheckCircle, BrainCircuit, Loader2, ListChecks, Wand2 } from 'lucide-react';
+import { UploadCloud, FileText, CheckCircle, BrainCircuit, Loader2, ListChecks, Wand2, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 
@@ -190,12 +190,37 @@ export default function ResumeScannerPage() {
                 <AlertDescription>{analysis.summary}</AlertDescription>
               </Alert>
               
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <h4 className="font-semibold mb-2 text-lg flex items-center"><ThumbsUp className="h-5 w-5 text-green-500 mr-2"/> Pros</h4>
+                        <ul className="space-y-2 list-none">
+                        {analysis.pros.map((pro, index) => (
+                            <li key={index} className="flex items-start">
+                            <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-1 flex-shrink-0" />
+                            <span>{pro}</span>
+                            </li>
+                        ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="font-semibold mb-2 text-lg flex items-center"><ThumbsDown className="h-5 w-5 text-destructive mr-2"/> Cons</h4>
+                        <ul className="space-y-2 list-none">
+                        {analysis.cons.map((con, index) => (
+                            <li key={index} className="flex items-start">
+                             <ThumbsDown className="h-4 w-4 text-destructive mr-2 mt-1 flex-shrink-0" />
+                            <span>{con}</span>
+                            </li>
+                        ))}
+                        </ul>
+                    </div>
+                </div>
+
               <div>
-                <h4 className="font-semibold mb-2 text-lg">Improvement Suggestions</h4>
+                <h4 className="font-semibold mb-2 text-lg">Improvements</h4>
                 <ul className="space-y-2 list-none">
-                  {analysis.suggestions.map((suggestion, index) => (
+                  {analysis.improvements.map((suggestion, index) => (
                     <li key={index} className="flex items-start">
-                      <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <Wand2 className="h-5 w-5 text-blue-500 mr-2 mt-0.5 flex-shrink-0" />
                       <span>{suggestion}</span>
                     </li>
                   ))}

@@ -22,7 +22,9 @@ export type AtsResumeScannerInput = z.infer<typeof AtsResumeScannerInputSchema>;
 
 const AtsResumeScannerOutputSchema = z.object({
   atsScore: z.number().describe('The ATS score of the resume (0-100).'),
-  suggestions: z.array(z.string()).describe('Specific suggestions for improving the resume.'),
+  pros: z.array(z.string()).describe('The pros and strengths of the resume.'),
+  cons: z.array(z.string()).describe('The cons and weaknesses of the resume.'),
+  improvements: z.array(z.string()).describe('Specific suggestions for improving the resume.'),
   summary: z.string().describe('A summary of the resume analysis.'),
 });
 export type AtsResumeScannerOutput = z.infer<typeof AtsResumeScannerOutputSchema>;
@@ -35,7 +37,7 @@ const atsResumeScannerPrompt = ai.definePrompt({
   name: 'atsResumeScannerPrompt',
   input: {schema: AtsResumeScannerInputSchema},
   output: {schema: AtsResumeScannerOutputSchema},
-  prompt: `You are an expert resume analyst specializing in Applicant Tracking Systems (ATS). You will analyze the resume provided and provide an ATS score (0-100), specific suggestions for improvement, and a summary of the analysis. Make sure to set the atsScore field to the score determined.
+  prompt: `You are an expert resume analyst specializing in Applicant Tracking Systems (ATS). You will analyze the resume provided and provide an ATS score (0-100), a summary of the analysis, the pros (strengths), the cons (weaknesses), and specific suggestions for improvement. Make sure to set the atsScore field to the score determined.
 
   Resume:
   {{media url=resumeDataUri}}
