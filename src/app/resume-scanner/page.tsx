@@ -47,6 +47,7 @@ export default function ResumeScannerPage() {
   });
 
   const fileList = watch('resumeFile');
+  const resumeDataUri = watch('resumeDataUri');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -123,12 +124,9 @@ export default function ResumeScannerPage() {
                     id="resumeFile"
                     type="file"
                     className="hidden"
-                    {...resumeFileRest}
-                    ref={resumeFileRef}
-                    onChange={(e) => {
-                        resumeFileRest.onChange(e);
-                        handleFileChange(e);
-                    }}
+                    {...register('resumeFile', {
+                        onChange: handleFileChange,
+                    })}
                     accept=".pdf,.doc,.docx"
                   />
                   <Label
