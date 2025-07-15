@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Chatbot from '@/components/chatbot/Chatbot';
 import { ThemeProvider } from '@/components/theme-provider';
+import { FloatingButtons } from '@/components/layout/FloatingButtons';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -33,7 +34,7 @@ export default function RootLayout({
             <main className="flex-grow">{children}</main>
             <Footer />
           </div>
-          <Chatbot />
+          <FloatingButtons />
           <Toaster />
         </ThemeProvider>
       </body>

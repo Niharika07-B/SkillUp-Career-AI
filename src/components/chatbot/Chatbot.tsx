@@ -78,75 +78,73 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            size="icon"
-            className="rounded-full h-16 w-16 bg-primary hover:bg-primary/90 shadow-lg"
-          >
-            {isOpen ? <X className="h-8 w-8" /> : <Bot className="h-8 w-8" />}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent side="top" align="end" className="w-80 md:w-96 p-0 rounded-lg shadow-2xl mr-2 mb-2">
-          <div className="flex flex-col h-[60vh]">
-            <div className="p-4 border-b bg-card">
-              <h3 className="font-bold text-lg flex items-center gap-2">
-                <Bot className="text-primary" /> Career Assistant
-              </h3>
-            </div>
-            <ScrollArea className="flex-grow p-4" ref={scrollAreaRef}>
-              <div className="space-y-4">
-                {messages.map((message, index) => (
-                  <div key={index} className={cn('flex items-start gap-3', message.role === 'user' ? 'justify-end' : 'justify-start')}>
-                     {message.role === 'bot' && (
-                        <Avatar className="h-8 w-8 bg-primary text-primary-foreground">
-                            <AvatarFallback><Bot className="h-5 w-5"/></AvatarFallback>
-                        </Avatar>
-                     )}
-                     <div className={cn('max-w-[80%] rounded-lg p-3 text-sm', message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted')}>
-                        {message.text}
-                     </div>
-                      {message.role === 'user' && (
-                        <Avatar className="h-8 w-8">
-                            <AvatarFallback><User className="h-5 w-5"/></AvatarFallback>
-                        </Avatar>
-                     )}
-                  </div>
-                ))}
-                {isLoading && (
-                    <div className="flex items-start gap-3 justify-start">
-                        <Avatar className="h-8 w-8 bg-primary text-primary-foreground">
-                            <AvatarFallback><Bot className="h-5 w-5"/></AvatarFallback>
-                        </Avatar>
-                        <div className="max-w-[80%] rounded-lg p-3 text-sm bg-muted">
-                            <div className="flex items-center space-x-1">
-                                <span className="h-2 w-2 bg-foreground rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                                <span className="h-2 w-2 bg-foreground rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                                <span className="h-2 w-2 bg-foreground rounded-full animate-bounce"></span>
-                            </div>
-                        </div>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          size="icon"
+          className="rounded-full h-16 w-16 bg-primary hover:bg-primary/90 shadow-lg"
+        >
+          {isOpen ? <X className="h-8 w-8" /> : <Bot className="h-8 w-8" />}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent side="top" align="end" className="w-80 md:w-96 p-0 rounded-lg shadow-2xl mr-2 mb-2">
+        <div className="flex flex-col h-[60vh]">
+          <div className="p-4 border-b bg-card">
+            <h3 className="font-bold text-lg flex items-center gap-2">
+              <Bot className="text-primary" /> Career Assistant
+            </h3>
+          </div>
+          <ScrollArea className="flex-grow p-4" ref={scrollAreaRef}>
+            <div className="space-y-4">
+              {messages.map((message, index) => (
+                <div key={index} className={cn('flex items-start gap-3', message.role === 'user' ? 'justify-end' : 'justify-start')}>
+                    {message.role === 'bot' && (
+                      <Avatar className="h-8 w-8 bg-primary text-primary-foreground">
+                          <AvatarFallback><Bot className="h-5 w-5"/></AvatarFallback>
+                      </Avatar>
+                    )}
+                    <div className={cn('max-w-[80%] rounded-lg p-3 text-sm', message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted')}>
+                      {message.text}
                     </div>
-                )}
-              </div>
-            </ScrollArea>
-            <div className="p-4 border-t bg-card">
-              <div className="flex items-center gap-2">
-                <Input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Ask me anything..."
-                  disabled={isLoading}
-                />
-                <Button onClick={handleSend} disabled={isLoading} size="icon" className="flex-shrink-0">
-                  <Send className="h-5 w-5" />
-                </Button>
-              </div>
+                    {message.role === 'user' && (
+                      <Avatar className="h-8 w-8">
+                          <AvatarFallback><User className="h-5 w-5"/></AvatarFallback>
+                      </Avatar>
+                    )}
+                </div>
+              ))}
+              {isLoading && (
+                  <div className="flex items-start gap-3 justify-start">
+                      <Avatar className="h-8 w-8 bg-primary text-primary-foreground">
+                          <AvatarFallback><Bot className="h-5 w-5"/></AvatarFallback>
+                      </Avatar>
+                      <div className="max-w-[80%] rounded-lg p-3 text-sm bg-muted">
+                          <div className="flex items-center space-x-1">
+                              <span className="h-2 w-2 bg-foreground rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                              <span className="h-2 w-2 bg-foreground rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                              <span className="h-2 w-2 bg-foreground rounded-full animate-bounce"></span>
+                          </div>
+                      </div>
+                  </div>
+              )}
+            </div>
+          </ScrollArea>
+          <div className="p-4 border-t bg-card">
+            <div className="flex items-center gap-2">
+              <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Ask me anything..."
+                disabled={isLoading}
+              />
+              <Button onClick={handleSend} disabled={isLoading} size="icon" className="flex-shrink-0">
+                <Send className="h-5 w-5" />
+              </Button>
             </div>
           </div>
-        </PopoverContent>
-      </Popover>
-    </div>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
