@@ -6,7 +6,6 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Chatbot from '@/components/chatbot/Chatbot';
 import { ThemeProvider } from '@/components/theme-provider';
-import StarsCanvas from '@/components/layout/StarsCanvas';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -30,7 +29,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="relative flex flex-col min-h-screen">
-            <StarsCanvas />
             <Header />
             <main className="flex-grow">{children}</main>
             <Footer />
