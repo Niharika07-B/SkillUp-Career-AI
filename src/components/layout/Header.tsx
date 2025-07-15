@@ -2,18 +2,19 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, University, Linkedin, Bot } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { Menu, University, User, LogOut } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-
-const GoogleIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-        <path d="M12 15a6 6 0 0 0 6-6H6a6 6 0 0 0 6 6z"/>
-        <path d="M12 15v5a5 5 0 0 0 5-5h-5z"/>
-        <path d="M12 9H7a5 5 0 0 0-5 5h5a5 5 0 0 0 5-5z"/>
-    </svg>
-);
+import { useEffect, useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 
 const navLinks = [
@@ -25,6 +26,46 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Function to update user name from local storage
+    const updateUserName = () => {
+      try {
+        const storedName = localStorage.getItem('userName');
+        setUserName(storedName);
+      } catch (error) {
+        console.error("Could not access localStorage", error);
+        setUserName(null);
+      }
+    };
+
+    // Initial check
+    updateUserName();
+
+    // Listen for storage changes to update across tabs
+    window.addEventListener('storage', updateUserName);
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener('storage', updateUserName);
+    };
+  }, []);
+
+  const handleSignOut = () => {
+    localStorage.removeItem('userName');
+    setUserName(null);
+    router.push('/sign-in');
+  };
+  
+  const getInitials = (name: string) => {
+    const names = name.split(' ');
+    if (names.length > 1) {
+        return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -48,18 +89,39 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-2">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/sign-in">
-                <GoogleIcon />
-                <span className="ml-2 hidden sm:inline">Sign In with Google</span>
-            </Link>
-          </Button>
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/sign-in">
-              <Linkedin className="h-5 w-5" />
-              <span className="ml-2 hidden sm:inline">Sign In with LinkedIn</span>
-            </Link>
-          </Button>
+           {userName ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar className="h-10 w-10">
+                        <AvatarFallback>{getInitials(userName)}</AvatarFallback>
+                    </Avatar>
+                 </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">Signed in as</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {userName}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="ghost" size="sm" asChild>
+                <Link href="/sign-in">
+                    <User className="h-5 w-5" />
+                    <span className="ml-2 hidden sm:inline">Sign In</span>
+                </Link>
+            </Button>
+          )}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" className="md:hidden">

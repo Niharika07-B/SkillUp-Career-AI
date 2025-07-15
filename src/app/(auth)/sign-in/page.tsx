@@ -23,13 +23,17 @@ export default function SignInPage() {
                     <CardDescription>Sign in to continue your career journey.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <Button variant="outline" className="w-full">
-                        <GoogleIcon />
-                        <span className="ml-2">Sign In with Google</span>
+                    <Button variant="outline" className="w-full" asChild>
+                        <Link href="/sign-in/enter-name">
+                            <GoogleIcon />
+                            <span className="ml-2">Sign In with Google</span>
+                        </Link>
                     </Button>
-                    <Button variant="outline" className="w-full">
-                        <Linkedin className="h-5 w-5" />
-                        <span className="ml-2">Sign In with LinkedIn</span>
+                    <Button variant="outline" className="w-full" asChild>
+                         <Link href="/sign-in/enter-name">
+                            <Linkedin className="h-5 w-5" />
+                            <span className="ml-2">Sign In with LinkedIn</span>
+                        </Link>
                     </Button>
                 </CardContent>
                 <CardFooter className="text-center text-xs text-muted-foreground">
