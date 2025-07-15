@@ -15,7 +15,7 @@ export default function AboutPage() {
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-16">
         <University className="mx-auto h-16 w-16 text-primary mb-4" />
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">About CareerAI SkillUp</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">About Skill Up Career AI</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
           Empowering the next generation of professionals with AI-driven career tools and guidance.
         </p>
@@ -25,11 +25,11 @@ export default function AboutPage() {
         <div>
           <h2 className="text-3xl font-bold mb-4">Our Story</h2>
           <p className="text-muted-foreground leading-relaxed">
-            Founded by a team of career coaches, AI experts, and educators, CareerAI SkillUp was born from a desire to democratize career development. We saw countless talented individuals struggle to navigate the complexities of the modern job market. Our goal is to level the playing field by providing accessible, intelligent tools that help everyone put their best foot forward. From crafting the perfect resume to acing tough interviews, we're here to support you every step of the way.
+            Founded by a team of career coaches, AI experts, and educators, Skill Up Career AI was born from a desire to democratize career development. We saw countless talented individuals struggle to navigate the complexities of the modern job market. Our goal is to level the playing field by providing accessible, intelligent tools that help everyone put their best foot forward. From crafting the perfect resume to acing tough interviews, we're here to support you every step of the way.
           </p>
         </div>
         <div>
-          <Image src="https://placehold.co/600x400.png" data-ai-hint="team collaboration" alt="Team working together" width={600} height={400} className="rounded-lg shadow-lg" />
+          <Image src="https://placehold.co/600x400.png" data-ai-hint="team collaboration office" alt="Team working together" width={600} height={400} className="rounded-lg shadow-lg" />
         </div>
       </div>
 

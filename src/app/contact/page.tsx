@@ -82,7 +82,7 @@ export default function ContactPage() {
             <div className="space-y-4 text-muted-foreground">
                 <div className="flex items-center gap-4">
                     <Mail className="h-6 w-6 text-primary" />
-                    <span>support@careeraisillup.com</span>
+                    <span>support@skillupcareerai.com</span>
                 </div>
                 <div className="flex items-center gap-4">
                     <Phone className="h-6 w-6 text-primary" />
@@ -101,7 +101,7 @@ export default function ContactPage() {
                     style={{border:0}} 
                     allowFullScreen={false}
                     loading="lazy"
-                    className="rounded-lg"
+                    className="rounded-lg shadow-md"
                     ></iframe>
             </div>
         </div>

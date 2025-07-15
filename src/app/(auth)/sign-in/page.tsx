@@ -19,7 +19,7 @@ export default function SignInPage() {
             <Card className="w-full max-w-md">
                 <CardHeader className="text-center">
                     <University className="mx-auto h-12 w-12 text-primary" />
-                    <CardTitle className="text-2xl mt-4">Welcome to CareerAI SkillUp</CardTitle>
+                    <CardTitle className="text-2xl mt-4">Welcome to Skill Up Career AI</CardTitle>
                     <CardDescription>Sign in to continue your career journey.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">

@@ -9,7 +9,7 @@ import Chatbot from '@/components/chatbot/Chatbot';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'CareerAI SkillUp',
+  title: 'Skill Up Career AI',
   description: 'A career navigator platform for students and professionals.',
 };
 
