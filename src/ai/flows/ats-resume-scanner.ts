@@ -41,8 +41,6 @@ const atsResumeScannerPrompt = ai.definePrompt({
 
   Resume:
   {{media url=resumeDataUri}}
-
-  Respond in a structured JSON format.
   `,
 });
 
