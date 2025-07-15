@@ -4,10 +4,10 @@ import { University, Users, Goal, Eye } from 'lucide-react';
 import Image from "next/image";
 
 const teamMembers = [
-  { name: 'Alice Johnson', role: 'Founder & CEO', avatar: 'https://placehold.co/100x100.png' },
-  { name: 'Bob Williams', role: 'Lead AI Engineer', avatar: 'https://placehold.co/100x100.png' },
-  { name: 'Charlie Brown', role: 'Head of Product', avatar: 'https://placehold.co/100x100.png' },
-  { name: 'Diana Miller', role: 'UX Lead', avatar: 'https://placehold.co/100x100.png' },
+  { name: 'Alice Johnson', role: 'Founder & CEO' },
+  { name: 'Bob Williams', role: 'Lead AI Engineer' },
+  { name: 'Charlie Brown', role: 'Head of Product' },
+  { name: 'Diana Miller', role: 'UX Lead' },
 ];
 
 export default function AboutPage() {
@@ -21,16 +21,11 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-        <div>
+      <div className="text-center mb-16">
           <h2 className="text-3xl font-bold mb-4">Our Story</h2>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed max-w-4xl mx-auto">
             Founded by a team of career coaches, AI experts, and educators, Skill Up Career AI was born from a desire to democratize career development. We saw countless talented individuals struggle to navigate the complexities of the modern job market. Our goal is to level the playing field by providing accessible, intelligent tools that help everyone put their best foot forward. From crafting the perfect resume to acing tough interviews, we're here to support you every step of the way.
           </p>
-        </div>
-        <div>
-          <Image src="https://placehold.co/600x400.png" data-ai-hint="team collaboration pencil drawing" alt="Team working together" width={600} height={400} className="rounded-lg shadow-lg" />
-        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 mb-16">
@@ -72,8 +67,7 @@ export default function AboutPage() {
             {teamMembers.map((member) => (
                 <div key={member.name} className="text-center">
                     <Avatar className="w-24 h-24 mx-auto mb-4">
-                        <AvatarImage src={member.avatar} alt={member.name} data-ai-hint="professional headshot pencil drawing" />
-                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                        <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                     </Avatar>
                     <h3 className="font-bold text-lg">{member.name}</h3>
                     <p className="text-sm text-muted-foreground">{member.role}</p>
