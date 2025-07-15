@@ -14,33 +14,44 @@ interface Message {
   text: string;
 }
 
+const initialMessage: Message = { role: 'bot', text: 'Hello! I am your career assistant. How can I help you today?' };
+
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    try {
+  const loadHistory = () => {
+     try {
       const storedMessages = localStorage.getItem('chatHistory');
       if (storedMessages) {
-        setMessages(JSON.parse(storedMessages));
+        const parsedMessages = JSON.parse(storedMessages);
+        if (parsedMessages.length > 0) {
+            setMessages(parsedMessages);
+        } else {
+            setMessages([initialMessage]);
+        }
       } else {
-        setMessages([
-          { role: 'bot', text: 'Hello! I am your career assistant. How can I help you today?' }
-        ]);
+        setMessages([initialMessage]);
       }
     } catch (error) {
         console.error("Could not access localStorage", error);
-        setMessages([
-            { role: 'bot', text: 'Hello! I am your career assistant. How can I help you today?' }
-        ]);
+        setMessages([initialMessage]);
+    }
+  }
+
+  useEffect(() => {
+    loadHistory();
+    window.addEventListener('storage', loadHistory);
+    return () => {
+      window.removeEventListener('storage', loadHistory);
     }
   }, []);
 
   useEffect(() => {
-    if (messages.length) {
+    if (messages.length > 1 || (messages.length === 1 && messages[0].text !== initialMessage.text)) {
         try {
             localStorage.setItem('chatHistory', JSON.stringify(messages));
         } catch (error) {
