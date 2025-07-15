@@ -1,3 +1,4 @@
+
 'use client';
 import { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
@@ -39,10 +40,13 @@ export default function ResumeScannerPage() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    watch,
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
+
+  const fileList = watch('resumeFile');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -51,7 +55,7 @@ export default function ResumeScannerPage() {
       const reader = new FileReader();
       reader.onload = (loadEvent) => {
         const dataUri = loadEvent.target?.result as string;
-        setValue('resumeDataUri', dataUri);
+        setValue('resumeDataUri', dataUri, { shouldValidate: true });
       };
       reader.onerror = () => {
         toast({
@@ -61,8 +65,14 @@ export default function ResumeScannerPage() {
         });
       };
       reader.readAsDataURL(file);
+    } else {
+        setFileName(null);
+        setValue('resumeDataUri', undefined);
     }
   };
+
+  const { ref: resumeFileRef, ...resumeFileRest } = register('resumeFile');
+
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (!data.resumeDataUri) {
@@ -113,8 +123,12 @@ export default function ResumeScannerPage() {
                     id="resumeFile"
                     type="file"
                     className="hidden"
-                    {...register('resumeFile')}
-                    onChange={handleFileChange}
+                    {...resumeFileRest}
+                    ref={resumeFileRef}
+                    onChange={(e) => {
+                        resumeFileRest.onChange(e);
+                        handleFileChange(e);
+                    }}
                     accept=".pdf,.doc,.docx"
                   />
                   <Label
@@ -130,10 +144,10 @@ export default function ResumeScannerPage() {
                 </div>
 
                 {errors.resumeFile && (
-                  <p className="text-sm text-destructive">{errors.resumeFile.message as string}</p>
+                  <p className="text-sm text-destructive mt-1">{errors.resumeFile.message as string}</p>
                 )}
               </div>
-              <Button type="submit" disabled={isLoading} className="w-full">
+              <Button type="submit" disabled={isLoading || isSubmitting || !fileList || fileList.length === 0} className="w-full">
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
