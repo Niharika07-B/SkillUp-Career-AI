@@ -1,0 +1,16 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/(auth)/sign-in/page": "/sign-in",
+  "/(auth)/sign-in/enter-name/page": "/sign-in/enter-name",
+  "/about/page": "/about",
+  "/contact/page": "/contact",
+  "/feedback/page": "/feedback",
+  "/page": "/",
+  "/privacy/page": "/privacy",
+  "/interviews/page": "/interviews",
+  "/resume-scanner/page": "/resume-scanner",
+  "/resume-generator/page": "/resume-generator",
+  "/terms/page": "/terms",
+  "/roadmaps/page": "/roadmaps"
+}
