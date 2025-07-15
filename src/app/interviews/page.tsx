@@ -29,7 +29,7 @@ export default function InterviewsPage() {
   useEffect(() => {
     const getCameraPermission = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         setHasCameraPermission(true);
 
         if (videoRef.current) {
@@ -46,10 +46,15 @@ export default function InterviewsPage() {
       }
     };
 
-    if (isScheduled) {
-        getCameraPermission();
+    getCameraPermission();
+
+    return () => {
+        if (videoRef.current && videoRef.current.srcObject) {
+            const stream = videoRef.current.srcObject as MediaStream;
+            stream.getTracks().forEach(track => track.stop());
+        }
     }
-  }, [isScheduled, toast]);
+  }, [toast]);
 
   const handleSchedule = () => {
       if(!date || !selectedTime) {
@@ -124,7 +129,7 @@ export default function InterviewsPage() {
                 </div>
               </div>
 
-               {isScheduled && hasCameraPermission === false && (
+               {hasCameraPermission === false && (
                 <Alert variant="destructive" className="mt-4">
                     <AlertTitle>Camera Access Required</AlertTitle>
                     <AlertDescription>
@@ -140,7 +145,7 @@ export default function InterviewsPage() {
                 <Button variant={isCameraOn ? "secondary" : "destructive"} size="icon" onClick={toggleCamera} disabled={!isScheduled}>
                   {isCameraOn ? <Video className="h-5 w-5" /> : <VideoOff className="h-5 w-5" />}
                 </Button>
-                <Button variant="destructive" size="icon" disabled={!isScheduled}>
+                <Button variant="destructive" size="icon" onClick={() => setIsScheduled(false)} disabled={!isScheduled}>
                   <PhoneOff className="h-5 w-5" />
                 </Button>
               </div>
