@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -81,21 +82,21 @@ export default function Header() {
           <University className="h-6 w-6 text-primary" />
           <span className="font-bold">Skill Up Career AI</span>
         </Link>
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          {navLinks.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                'transition-colors hover:text-foreground/80',
-                pathname === href ? 'text-foreground' : 'text-foreground/60'
-              )}
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
         <div className="flex flex-1 items-center justify-end space-x-2">
+           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+            {navLinks.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className={cn(
+                  'transition-colors hover:text-foreground/80',
+                  pathname === href ? 'text-foreground' : 'text-foreground/60'
+                )}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
            {userName ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
