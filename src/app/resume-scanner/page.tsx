@@ -16,16 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 
 const formSchema = z.object({
-  resumeFile: z
-    .custom<FileList>()
-    .refine((files) => files?.length > 0, 'A resume file is required.')
-    .refine((files) => files?.[0]?.size <= 5 * 1024 * 1024, `Max file size is 5MB.`)
-    .refine(
-      (files) =>
-        ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'].includes(files?.[0]?.type),
-      'Only .pdf, .doc, and .docx formats are supported.'
-    ),
-  resumeDataUri: z.string().optional(),
+  resumeDataUri: z.string().min(1, 'A resume file is required.'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -37,21 +28,34 @@ export default function ResumeScannerPage() {
   const { toast } = useToast();
 
   const {
-    register,
     handleSubmit,
     setValue,
-    watch,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: 'onChange',
   });
-
-  const fileList = watch('resumeFile');
-  const resumeDataUri = watch('resumeDataUri');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          variant: 'destructive',
+          title: 'File too large',
+          description: 'Please upload a file smaller than 5MB.',
+        });
+        return;
+      }
+      if (!['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'].includes(file.type)) {
+        toast({
+          variant: 'destructive',
+          title: 'Invalid file type',
+          description: 'Only .pdf, .doc, and .docx formats are supported.',
+        });
+        return;
+      }
+
       setFileName(file.name);
       const reader = new FileReader();
       reader.onload = (loadEvent) => {
@@ -67,23 +71,12 @@ export default function ResumeScannerPage() {
       };
       reader.readAsDataURL(file);
     } else {
-        setFileName(null);
-        setValue('resumeDataUri', undefined);
+      setFileName(null);
+      setValue('resumeDataUri', '', { shouldValidate: true });
     }
   };
 
-  const { ref: resumeFileRef, ...resumeFileRest } = register('resumeFile');
-
-
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    if (!data.resumeDataUri) {
-      toast({
-        variant: 'destructive',
-        title: 'File Error',
-        description: 'Could not process the resume file. Please re-upload.',
-      });
-      return;
-    }
     setIsLoading(true);
     setAnalysis(null);
     try {
@@ -124,9 +117,7 @@ export default function ResumeScannerPage() {
                     id="resumeFile"
                     type="file"
                     className="hidden"
-                    {...register('resumeFile', {
-                        onChange: handleFileChange,
-                    })}
+                    onChange={handleFileChange}
                     accept=".pdf,.doc,.docx"
                   />
                   <Label
@@ -141,11 +132,11 @@ export default function ResumeScannerPage() {
                   </Label>
                 </div>
 
-                {errors.resumeFile && (
-                  <p className="text-sm text-destructive mt-1">{errors.resumeFile.message as string}</p>
+                {errors.resumeDataUri && (
+                  <p className="text-sm text-destructive mt-1">{errors.resumeDataUri.message as string}</p>
                 )}
               </div>
-              <Button type="submit" disabled={isLoading || isSubmitting || !fileList || fileList.length === 0} className="w-full">
+              <Button type="submit" disabled={isLoading || isSubmitting || !isValid} className="w-full">
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
