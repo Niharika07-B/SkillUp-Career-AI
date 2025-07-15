@@ -6,13 +6,19 @@ interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  title: string;
+  description: string;
 }
 
-export function Sidebar({ isOpen, onClose, children }: SidebarProps) {
+export function Sidebar({ isOpen, onClose, children, title, description }: SidebarProps) {
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="w-full sm:max-w-md">
-        <ScrollArea className="h-full pr-4">
+        <SheetHeader>
+            <SheetTitle>{title}</SheetTitle>
+            <SheetDescription>{description}</SheetDescription>
+        </SheetHeader>
+        <ScrollArea className="h-full pr-4 mt-4">
           {children}
         </ScrollArea>
       </SheetContent>

@@ -20,19 +20,33 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 //   description: 'A career navigator platform for students and professionals.',
 // };
 
+type SidebarContent = {
+  component: React.ReactNode;
+  title: string;
+  description: string;
+} | null;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [sidebarContent, setSidebarContent] = useState<React.ReactNode | null>(null);
+  const [sidebarContent, setSidebarContent] = useState<SidebarContent>(null);
 
   const handleShowTestimonials = () => {
-    setSidebarContent(<TestimonialsSidebar />);
+    setSidebarContent({
+      component: <TestimonialsSidebar />,
+      title: 'Testimonials',
+      description: 'See what our users have to say about their experience.',
+    });
   };
 
   const handleShowHistory = () => {
-    setSidebarContent(<HistorySidebar />);
+    setSidebarContent({
+      component: <HistorySidebar />,
+      title: 'Chat History',
+      description: 'Review your past conversations with the Career Assistant.',
+    });
   };
   
   return (
@@ -54,8 +68,13 @@ export default function RootLayout({
             <Footer />
           </div>
           <FloatingButtons />
-          <Sidebar isOpen={!!sidebarContent} onClose={() => setSidebarContent(null)}>
-            {sidebarContent}
+          <Sidebar 
+            isOpen={!!sidebarContent} 
+            onClose={() => setSidebarContent(null)}
+            title={sidebarContent?.title || ''}
+            description={sidebarContent?.description || ''}
+            >
+            {sidebarContent?.component}
           </Sidebar>
           <Toaster />
         </ThemeProvider>
