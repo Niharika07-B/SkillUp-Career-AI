@@ -29,7 +29,7 @@ export default function AboutPage() {
           </p>
         </div>
         <div>
-          <Image src="https://placehold.co/600x400.png" data-ai-hint="team collaboration office" alt="Team working together" width={600} height={400} className="rounded-lg shadow-lg" />
+          <Image src="https://placehold.co/600x400.png" data-ai-hint="team collaboration pencil drawing" alt="Team working together" width={600} height={400} className="rounded-lg shadow-lg" />
         </div>
       </div>
 
@@ -72,7 +72,7 @@ export default function AboutPage() {
             {teamMembers.map((member) => (
                 <div key={member.name} className="text-center">
                     <Avatar className="w-24 h-24 mx-auto mb-4">
-                        <AvatarImage src={member.avatar} alt={member.name} data-ai-hint="professional headshot" />
+                        <AvatarImage src={member.avatar} alt={member.name} data-ai-hint="professional headshot pencil drawing" />
                         <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <h3 className="font-bold text-lg">{member.name}</h3>

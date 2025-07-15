@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Briefcase, FileText, Map, Mic, ChevronRight, Star, BrainCircuit, Code, Database, Cloud, Shield } from "lucide-react";
+import { Briefcase, FileText, Map, Mic, ChevronRight, Star, BrainCircuit, Code, Database, Cloud, Shield, Bot } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { GoogleIcon, AndroidIcon, FirebaseIcon } from "@/components/icons/BrandIcons";
+import { ScrollingCarousel } from "@/components/layout/ScrollingCarousel";
 
 const features = [
   {
@@ -13,7 +14,7 @@ const features = [
     description: "Practice your interview skills with AI-powered mock interviews and get instant feedback.",
     link: "/interviews",
     img: "https://placehold.co/600x400.png",
-    imgHint: "job interview"
+    imgHint: "job interview pencil drawing"
   },
   {
     icon: <FileText className="w-10 h-10 text-primary" />,
@@ -21,7 +22,7 @@ const features = [
     description: "Optimize your resume for applicant tracking systems and increase your chances of getting noticed.",
     link: "/resume-scanner",
     img: "https://placehold.co/600x400.png",
-    imgHint: "resume analysis"
+    imgHint: "resume analysis pencil drawing"
   },
   {
     icon: <Map className="w-10 h-10 text-primary" />,
@@ -29,17 +30,8 @@ const features = [
     description: "Explore curated roadmaps for various tech roles and chart your path to success.",
     link: "/roadmaps",
     img: "https://placehold.co/600x400.png",
-    imgHint: "career path"
+    imgHint: "career path pencil drawing"
   },
-];
-
-const techIcons = [
-    { icon: <BrainCircuit className="w-12 h-12" />, name: "AI/ML" },
-    { icon: <Code className="w-12 h-12" />, name: "Development" },
-    { icon: <Database className="w-12 h-12" />, name: "Data Science" },
-    { icon: <Cloud className="w-12 h-12" />, name: "Cloud" },
-    { icon: <Shield className="w-12 h-12" />, name: "Cybersecurity" },
-    { icon: <Briefcase className="w-12 h-12" />, name: "Product" },
 ];
 
 const testimonials = [
@@ -47,39 +39,52 @@ const testimonials = [
     name: "Sarah L.",
     role: "Software Engineer",
     avatar: "https://placehold.co/100x100.png",
-    avatarHint: "woman smiling",
+    avatarHint: "woman smiling pencil drawing",
     text: "The AI mock interviews were a game-changer. I went into my real interviews with so much more confidence and landed my dream job!",
   },
   {
     name: "Michael B.",
     role: "Aspiring Data Scientist",
     avatar: "https://placehold.co/100x100.png",
-    avatarHint: "man portrait",
+    avatarHint: "man portrait pencil drawing",
     text: "The resume scanner helped me understand why my applications weren't getting responses. After a few tweaks, I started getting calls back immediately.",
   },
   {
     name: "Jessica P.",
     role: "UX Designer",
     avatar: "https://placehold.co/100x100.png",
-    avatarHint: "professional woman",
+    avatarHint: "professional woman pencil drawing",
     text: "Career roadmaps gave me the clarity I needed. I was overwhelmed with what to learn, but Skill Up Career AI laid it all out for me.",
   },
+  {
+    name: "David C.",
+    role: "Cybersecurity Student",
+    avatar: "https://placehold.co/100x100.png",
+    avatarHint: "student headshot pencil drawing",
+    text: "This platform is a must-have for any student in tech. The resources are practical and directly applicable to the job market.",
+  },
+  {
+    name: "Emily R.",
+    role: "Product Manager",
+    avatar: "https://placehold.co/100x100.png",
+    avatarHint: "woman professional pencil drawing",
+    text: "I love the holistic approach. It's not just about one part of the job search; it's about building a whole career strategy.",
+  },
+  {
+    name: "Alex T.",
+    role: "DevOps Engineer",
+    avatar: "https://placehold.co/100x100.png",
+    avatarHint: "man tech worker pencil drawing",
+    text: "The roadmaps are incredibly detailed and the resume scanner is brutally honest in the best way possible. Highly recommended!",
+  },
 ];
-
-const GoogleIcon = ({ size = 24 }: { size?: number }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-        <path d="M12 15a6 6 0 0 0 6-6H6a6 6 0 0 0 6 6z"/>
-        <path d="M12 15v5a5 5 0 0 0 5-5h-5z"/>
-        <path d="M12 9H7a5 5 0 0 0-5 5h5a5 5 0 0 0 5-5z"/>
-    </svg>
-);
 
 const googleServices = [
     { icon: <GoogleIcon size={48} />, name: "Google" },
     { icon: <BrainCircuit className="w-12 h-12" />, name: "Gemini" },
     { icon: <Cloud className="w-12 h-12" />, name: "Google Cloud" },
-    { icon: <Code className="w-12 h-12" />, name: "Firebase" },
+    { icon: <FirebaseIcon size={48} />, name: "Firebase" },
+    { icon: <AndroidIcon size={48} />, name: "Android" },
     { icon: <Database className="w-12 h-12" />, name: "BigQuery" },
 ];
 
@@ -137,7 +142,7 @@ export default function Home() {
       <section className="w-full py-20 md:py-24 bg-card">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Loved by Professionals Worldwide</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
               <Card key={testimonial.name} className="flex flex-col">
                 <CardContent className="p-6 flex-grow flex flex-col">
@@ -165,29 +170,11 @@ export default function Home() {
       </section>
 
       {/* Google Services Carousel */}
-      <section className="w-full bg-background py-16 md:py-20">
+      <section className="w-full bg-background py-16 md:py-20 overflow-hidden">
           <div className="container mx-auto px-4">
               <h2 className="text-3xl font-bold text-center mb-4">Powered by Google</h2>
               <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">We leverage the best of Google's technology to power our platform.</p>
-              <Carousel
-                  opts={{ align: "start", loop: true }}
-                  className="w-full max-w-4xl mx-auto"
-              >
-                  <CarouselContent>
-                      {googleServices.map((item, index) => (
-                          <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
-                              <div className="p-1">
-                                  <div className="flex flex-col items-center justify-center p-6 bg-card rounded-lg aspect-square">
-                                    {item.icon}
-                                    <span className="text-sm font-medium mt-2 text-muted-foreground">{item.name}</span>
-                                  </div>
-                              </div>
-                          </CarouselItem>
-                      ))}
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-              </Carousel>
+              <ScrollingCarousel items={googleServices} />
           </div>
       </section>
 

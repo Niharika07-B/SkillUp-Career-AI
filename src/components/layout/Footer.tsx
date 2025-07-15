@@ -45,11 +45,12 @@ export default function Footer() {
           </div>
 
           <div className="space-y-2">
-            <h3 className="font-semibold">Legal</h3>
+            <h3 className="font-semibold">Legal & Feedback</h3>
              <nav className="flex flex-col space-y-2">
                 <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary hover:underline">Terms of Service</Link>
                 <Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary hover:underline">Privacy Policy</Link>
-                 <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary hover:underline">Contact Page</Link>
+                 <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary hover:underline">Contact Us</Link>
+                 <Link href="/feedback" className="text-sm text-muted-foreground hover:text-primary hover:underline">Give Feedback</Link>
               </nav>
           </div>
         </div>

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
@@ -9,6 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 const timeSlots = [
     "09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM"
@@ -21,7 +22,34 @@ export default function InterviewsPage() {
   const [isMicOn, setIsMicOn] = useState(true);
   const [isCameraOn, setIsCameraOn] = useState(true);
   const { toast } = useToast();
-  
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const getCameraPermission = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        setHasCameraPermission(true);
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.error('Error accessing camera:', error);
+        setHasCameraPermission(false);
+        toast({
+          variant: 'destructive',
+          title: 'Camera Access Denied',
+          description: 'Please enable camera permissions in your browser settings to use this app.',
+        });
+      }
+    };
+
+    if (isScheduled) {
+        getCameraPermission();
+    }
+  }, [isScheduled, toast]);
+
   const handleSchedule = () => {
       if(!date || !selectedTime) {
           toast({
@@ -38,6 +66,26 @@ export default function InterviewsPage() {
       });
   }
 
+  const toggleCamera = () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+          const stream = videoRef.current.srcObject as MediaStream;
+          stream.getVideoTracks().forEach(track => {
+              track.enabled = !isCameraOn;
+          });
+          setIsCameraOn(!isCameraOn);
+      }
+  }
+
+  const toggleMic = () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+          const stream = videoRef.current.srcObject as MediaStream;
+          stream.getAudioTracks().forEach(track => {
+              track.enabled = !isMicOn;
+          });
+          setIsMicOn(!isMicOn);
+      }
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
@@ -48,7 +96,6 @@ export default function InterviewsPage() {
       </div>
 
       <div className="grid md:grid-cols-5 gap-8">
-        {/* Interview Interface */}
         <div className="md:col-span-3">
           <Card className="w-full">
             <CardHeader>
@@ -63,15 +110,11 @@ export default function InterviewsPage() {
                   <p className="text-2xl font-bold">AI Interviewer</p>
                    <p className="text-sm text-muted-foreground">Waiting to start...</p>
                 </div>
-                 <div data-ai-hint="office background" className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: "url('https://placehold.co/1280x720.png')", opacity: 0.3}}></div>
+                 <div data-ai-hint="office background pencil drawing" className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: "url('https://placehold.co/1280x720.png')", opacity: 0.3}}></div>
 
-                <div className="absolute bottom-4 right-4 h-1/4 aspect-video bg-muted/80 rounded-md border border-border flex items-center justify-center">
-                  {isCameraOn ? (
-                    <div className="text-center text-foreground">
-                        <Video className="mx-auto h-6 w-6"/>
-                        <p className="text-xs mt-1">Your Camera</p>
-                    </div>
-                  ) : (
+                <div className="absolute bottom-4 right-4 h-1/4 aspect-video bg-muted/80 rounded-md border border-border flex items-center justify-center overflow-hidden">
+                    <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline style={{ display: isCameraOn ? 'block' : 'none' }} />
+                    {!isCameraOn && (
                      <div className="text-center text-destructive">
                         <VideoOff className="mx-auto h-6 w-6"/>
                         <p className="text-xs mt-1">Camera Off</p>
@@ -79,14 +122,24 @@ export default function InterviewsPage() {
                   )}
                 </div>
               </div>
+
+               {isScheduled && hasCameraPermission === false && (
+                <Alert variant="destructive" className="mt-4">
+                    <AlertTitle>Camera Access Required</AlertTitle>
+                    <AlertDescription>
+                        Please allow camera access in your browser settings to use this feature.
+                    </AlertDescription>
+                </Alert>
+                )}
+
               <div className="mt-4 flex justify-center space-x-4">
-                <Button variant={isMicOn ? "secondary" : "destructive"} size="icon" onClick={() => setIsMicOn(!isMicOn)}>
+                <Button variant={isMicOn ? "secondary" : "destructive"} size="icon" onClick={toggleMic} disabled={!isScheduled}>
                   {isMicOn ? <Mic className="h-5 w-5" /> : <MicOff className="h-5 w-5" />}
                 </Button>
-                <Button variant={isCameraOn ? "secondary" : "destructive"} size="icon" onClick={() => setIsCameraOn(!isCameraOn)}>
+                <Button variant={isCameraOn ? "secondary" : "destructive"} size="icon" onClick={toggleCamera} disabled={!isScheduled}>
                   {isCameraOn ? <Video className="h-5 w-5" /> : <VideoOff className="h-5 w-5" />}
                 </Button>
-                <Button variant="destructive" size="icon">
+                <Button variant="destructive" size="icon" disabled={!isScheduled}>
                   <PhoneOff className="h-5 w-5" />
                 </Button>
               </div>
@@ -94,7 +147,6 @@ export default function InterviewsPage() {
           </Card>
         </div>
 
-        {/* Scheduling */}
         <div className="md:col-span-2">
             <Card>
                 <CardHeader>
@@ -123,7 +175,7 @@ export default function InterviewsPage() {
                                 selected={date}
                                 onSelect={setDate}
                                 initialFocus
-                                disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
+                                disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))}
                             />
                             </PopoverContent>
                         </Popover>
@@ -142,8 +194,8 @@ export default function InterviewsPage() {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Button onClick={handleSchedule} className="w-full">
-                        Confirm Schedule
+                    <Button onClick={handleSchedule} className="w-full" disabled={isScheduled}>
+                        {isScheduled ? "Scheduled" : "Confirm Schedule"}
                     </Button>
                 </CardContent>
             </Card>

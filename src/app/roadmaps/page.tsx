@@ -1,12 +1,5 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { CheckCircle2 } from "lucide-react";
-
+import { Card, CardContent } from "@/components/ui/card";
+import { CheckCircle2, GitBranch, Milestone } from "lucide-react";
 
 const roadmaps = [
   {
@@ -131,42 +124,55 @@ const roadmaps = [
   }
 ];
 
+const RoadmapStep = ({ step, isLast }: { step: string, isLast: boolean }) => (
+    <div className="relative flex items-start">
+        <div className="flex flex-col items-center mr-4">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/20 text-primary ring-4 ring-background z-10">
+                <CheckCircle2 className="w-5 h-5" />
+            </div>
+            {!isLast && <div className="w-0.5 h-full bg-border -mt-1" />}
+        </div>
+        <div className="pt-1.5 pb-8">
+            <p className="font-medium">{step}</p>
+        </div>
+    </div>
+);
+
+const RoadmapCard = ({ title, description, steps }: typeof roadmaps[0]) => (
+    <Card className="w-full">
+        <CardContent className="p-6">
+            <div className="flex items-start gap-4">
+                <GitBranch className="h-8 w-8 text-primary mt-1 flex-shrink-0" />
+                <div>
+                    <h2 className="text-2xl font-bold">{title}</h2>
+                    <p className="text-muted-foreground">{description}</p>
+                </div>
+            </div>
+            <div className="mt-6">
+                {steps.map((step, index) => (
+                    <RoadmapStep key={index} step={step} isLast={index === steps.length - 1} />
+                ))}
+            </div>
+        </CardContent>
+    </Card>
+);
+
 export default function RoadmapsPage() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
+        <Milestone className="mx-auto h-16 w-16 text-primary mb-4" />
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">Career Roadmaps</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
           Your journey to a successful tech career starts here. Follow these expert-curated roadmaps to gain the skills you need.
         </p>
       </div>
 
-      <Card>
-        <CardContent className="p-4 md:p-6">
-          <Accordion type="single" collapsible className="w-full">
-            {roadmaps.map((roadmap, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-xl font-semibold hover:no-underline">
-                  <div className="flex flex-col text-left">
-                    <span>{roadmap.title}</span>
-                    <span className="text-sm font-normal text-muted-foreground">{roadmap.description}</span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ul className="space-y-3 pl-4 pt-2">
-                    {roadmap.steps.map((step, stepIndex) => (
-                      <li key={stepIndex} className="flex items-start">
-                        <CheckCircle2 className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                        <span>{step}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </CardContent>
-      </Card>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {roadmaps.map((roadmap, index) => (
+              <RoadmapCard key={index} {...roadmap} />
+          ))}
+      </div>
     </div>
   );
 }
