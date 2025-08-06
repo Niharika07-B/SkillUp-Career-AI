@@ -50,3 +50,14 @@ firestore-debug.log
 
 # ZIP files
 *.zip
+# Avoid large platform binaries
+*.node
+
+# Webpack large pack files
+*.pack
+
+# Next.js build cache (can generate very large files)
+.next/cache/
+
+# Functions dependencies (can contain platform-specific large binaries)
+functions/node_modules/
