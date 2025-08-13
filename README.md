@@ -320,6 +320,35 @@ Resume Feedback  Interview Score     Roadmap with
 ```
 ---
 
+# 🤝 Credits
+
+Made with 💙 by Niharika  🚀 Special thanks to contributors and early testers!!!!
+
+---
+# 🧑‍💻 Connect With Me  
+
+Let's connect and collaborate as Diving in ocean of Knowledge brings nature and Technology together🚀:  
+
+<div align="center"> 
+  <a href="mailto:niharika.bandaru5002@gmail.com">
+    <img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white"/>
+  </a> 
+  <a href="https://www.linkedin.com/in/bandaru-niharika/">
+    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+  </a> 
+  <a href="https://instagram.com/17_n.i.h.a.r.i.k.a_07">
+    <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white"/>
+  </a> 
+  <a href="https://medium.com/@niharika.bandaru5002">
+    <img src="https://img.shields.io/badge/Medium-000000?style=for-the-badge&logo=medium&logoColor=white"/>
+  </a> 
+  <a href="https://x.com/NihaNiharika777">
+    <img src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white"/>
+  </a> 
+</div>  
+
+---
+
 
 
 
