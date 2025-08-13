@@ -273,12 +273,52 @@ This project is licensed under the MIT License - Free to use, modify, and distri
 
 ---
 
+# 🔄 Project Structure Flowchart
 
+```
+        ┌────────────────────────────┐
+        │ Student/Recruiter Accesses │
+        │   SkillUp Career AI WebApp │
+        └──────────────┬─────────────┘
+                       │
+            ┌──────────▼───────────┐
+            │ User Authentication  │
+            │  (Firebase Auth)      │
+            └──────────┬───────────┘
+                       │
+     ┌─────────────────┼──────────────────┐
+     │                 │                  │
+┌────▼─────┐    ┌──────▼───────┐    ┌─────▼─────┐
+│ Resume   │    │ AI Interview │    │ Roadmap   │
+│ Upload & │    │ Preparation  │    │ Generation│
+│ Analysis │    │ & Evaluation │    │           │
+└────┬─────┘    └──────┬───────┘    └─────┬─────┘
+     │                 │                  │
+     │                 │                  │
+     ▼                 ▼                  ▼
+[Firebase Storage]  [Gemini API]      [Gemini API]
+     │                 │                  │
+     ▼                 ▼                  ▼
+[Vertex AI Document] [AI Feedback]    [Skill Gap Analysis]
+  AI Parsing          & Suggestions   & Learning Path
+     │                 │                  │
+     ▼                 ▼                  ▼
+Resume Feedback  Interview Score     Roadmap with
++ Improvements   + Improvement Plan  Skills & Resources
+     │                 │                  │
+     └─────────┬───────┴──────────┬───────┘
+               │                  │
+               ▼                  ▼
+       Store Progress in     Display Results
+       Firestore Database    in Web App UI
+               │                  │
+               └───────────┬──────┘
+                           ▼
+                    Continuous Tracking
+                    & Profile Updates
 
-
-
-
-
+```
+---
 
 
 
