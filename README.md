@@ -18,7 +18,7 @@
 
 
 </div>
-
+   
 ---
 
 # 🚀 SkillUp Career AI 👩‍💻
