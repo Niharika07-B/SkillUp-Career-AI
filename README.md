@@ -1,6 +1,6 @@
 <p align="center" style="position: relative;">
   <img src="https://readme-typing-svg.herokuapp.com?font=Montserrat&size=28&duration=4000&pause=500&color=8A2BE2&center=true&vCenter=true&width=800&lines=SkillUp+Career+AI+🚀;AI-Powered+Job+Readiness+for+Students;From+Resume+to+Attend+Interviews" alt="Typing SVG" />
-</p>
+</p> 
 
 
 <div align="center">  
